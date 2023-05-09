@@ -36,8 +36,7 @@ def create_booking(booking: Booking):
         return Response("User with id " + str(booking.user_id) + " not found", HTTP_404_NOT_FOUND)
 
     booking_date = datetime.strptime(booking.booking_date, '%Y-%m-%d').date() if booking.booking_date else datetime.today().date()
-    print(str(booking_date), str(booking_date + timedelta(days=28)))
-    return_date = datetime.strptime(booking.return_date, '%Y-%m-%d').date() if booking.return_date else booking.booking_date + timedelta(days=28)
+    return_date = datetime.strptime(booking.return_date, '%Y-%m-%d').date() if booking.return_date else booking_date + timedelta(days=28)
 
     # Check book is not already booked for booking_date
     existing_booking = conn.execute(bookings.select().where(bookings.c.book_id == booking.book_id).where(bookings.c.return_date > booking_date)).first()
