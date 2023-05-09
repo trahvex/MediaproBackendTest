@@ -43,7 +43,7 @@ The following API endpoints are available:
 
 ### Books
 
-    - GET /books: Get all books or search by name or author by adding the parameter _search_ to the url
+    - GET /books: Get all books or search by name or author by adding the parameter search to the url. Results are paginated and can be sort by title or author.
     - GET /books/{book_id}: Get book by ID
     - POST /books: Create a new book
     - PUT /books/{book_id}: Update book by ID
