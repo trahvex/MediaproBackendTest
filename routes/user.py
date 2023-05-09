@@ -21,7 +21,7 @@ def get_user(id: str):
         return Response("User with id " + id + " not found", HTTP_404_NOT_FOUND)
     return Response(json.dumps(result._asdict()), HTTP_200_OK)
 
-@user.post('/users', tags=["users"])
+@user.post('/users', tags=["users"], description="There cannot be more than one user with the same email address.")
 def create_user(user: User):
     new_user = {"name": user.name, "email": user.email}
     try:

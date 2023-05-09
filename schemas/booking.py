@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 from pydantic import BaseModel, Field
 
 class Booking(BaseModel):
-    id: Optional[int]
     user_id: int
     book_id: int
     booking_date: Optional[str] = Field(str(datetime.today().date()))

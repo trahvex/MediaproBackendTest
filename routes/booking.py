@@ -23,7 +23,9 @@ def get_booking(id: str):
         return Response("Booking with id " + id + " not found", HTTP_404_NOT_FOUND)
     return Response(json.dumps(result._asdict(), indent=4, sort_keys=True, default=str), HTTP_200_OK)
 
-@booking.post('/bookings', tags=["bookings"])
+@booking.post('/bookings', tags=["bookings"], description="The booking date and return date are optional." +
+              " If they are not introduced, booking date will be set to the current date and return date will be set 28 days after the booking date." +
+              " A new booking cannot be created for a given booking date if there is an existing booking which its return date is later.")
 def create_booking(booking: Booking):
     book_query = books.select().where(books.c.id == booking.book_id)
     user_query = users.select().where(users.c.id == booking.user_id)
@@ -49,12 +51,12 @@ def create_booking(booking: Booking):
 
     return Response("Booked " + book.title + " by " + user.name + " until " + str(return_date), HTTP_200_OK)
     
-@booking.put('/bookings/{id}', response_model=Booking, tags=["bookings"])
-def update_booking(id: str, booking: Booking):
+@booking.put('/bookings/{id}', response_model=Booking, tags=["bookings"], description="Onyl the return date can be updated for bookings.")
+def update_booking(id: str, new_return_date: str):
     result = conn.execute(bookings.select().where(bookings.c.id == id)).first()
     if not result:
         return Response("Booking with id " + id + " not found", HTTP_404_NOT_FOUND)
-    conn.execute(bookings.update().values(return_date=booking.return_date).where(bookings.c.id == id))
+    conn.execute(bookings.update().values(return_date=new_return_date).where(bookings.c.id == id))
     result = conn.execute(bookings.select().where(bookings.c.id == id)).first()
     return Response(json.dumps(result._asdict(), indent=4, sort_keys=True, default=str), HTTP_200_OK)
     
