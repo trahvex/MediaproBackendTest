@@ -1,9 +1,9 @@
-# SQLAlchemy + FastAPI Library Management Project
-
+# Mediapro Backend Test
 This project allows the management of a library via its users, bookings, and books. It is built using the FastAPI web framework and SQLAlchemy for database management.
-Installation
 
-## Clone the repository:
+## Installation
+
+Clone the repository:
 
 ```bash
 git clone https://github.com/trahvex/MediaproBackendTest
