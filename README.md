@@ -21,7 +21,7 @@ pip install -r requirements.txt
 ```
 ## Usage
 
-Start the FastAPI app using the following command:
+Start the library app using the following command:
 
 ```bash
 uvicorn app:app --reload
