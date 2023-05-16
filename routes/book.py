@@ -18,6 +18,9 @@ def get_books(search: Optional[str] = "", page: Optional[int] = 1, sort_by: Opti
     
     search_query = books.select().where((books.c.title.like(f"%{search}%")) | (books.c.author.like(f"%{search}%")))
     total_books = conn.execute(search_query).scalar()
+    if total_books is None:
+        return Response("There are no books registered yet.", HTTP_404_NOT_FOUND)
+
     total_pages = ceil(total_books/10)
 
     if page < 1 or page > total_pages:
@@ -34,9 +37,7 @@ def get_books(search: Optional[str] = "", page: Optional[int] = 1, sort_by: Opti
         .limit(10)
     ).fetchall()
     book_data = [book._asdict() for book in results]
-
-    book_data = [book._asdict() for book in results]
-    book_data[page] = page
+    book_data.append(page)
     return Response(json.dumps(book_data), HTTP_200_OK)
 
 @book.get('/books/{id}', response_model=Book, tags=["books"])
